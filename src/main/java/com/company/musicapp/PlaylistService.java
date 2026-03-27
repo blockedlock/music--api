@@ -39,4 +39,9 @@ public class PlaylistService {
         pt.setTrackId(trackId);
         playlistTrackRepository.save(pt);
     }
+
+    public void removeTrackFromPlaylist(Long playlistId, Long trackId) {
+        playlistTrackRepository.deleteByPlaylistIdAndTrackId(playlistId, trackId);
+    }
+
 }

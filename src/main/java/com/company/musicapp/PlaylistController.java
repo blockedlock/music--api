@@ -44,5 +44,9 @@ public class PlaylistController {
         playlistService.addTrackToPlaylist(playlistId, trackId);
     }
 
+    @DeleteMapping("/playlists/{playlistId}/tracks/{trackId}")
+    public void removeTrackFromPlaylist(@PathVariable Long playlistId, @PathVariable Long trackId) {
+        playlistService.removeTrackFromPlaylist(playlistId, trackId);
+    }
 
 }
