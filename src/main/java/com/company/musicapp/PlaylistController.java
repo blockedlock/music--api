@@ -40,9 +40,12 @@ public class PlaylistController {
     }
 
     @PostMapping("/playlists/{playlistId}/tracks/{trackId}")
-    public void addTrackToPlaylist(@PathVariable Long playlistId, @PathVariable Long trackId) {
-        playlistService.addTrackToPlaylist(playlistId, trackId);
+    public ResponseEntity<Void> addTrackToPlaylist(@PathVariable Long playlistId, @PathVariable Long trackId) {
+        return playlistService.addTrackToPlaylist(playlistId, trackId)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
     }
+
 
     @DeleteMapping("/playlists/{playlistId}/tracks/{trackId}")
     public void removeTrackFromPlaylist(@PathVariable Long playlistId, @PathVariable Long trackId) {

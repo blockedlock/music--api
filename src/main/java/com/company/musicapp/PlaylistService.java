@@ -7,10 +7,14 @@ import java.util.List;
 public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final PlaylistTrackRepository playlistTrackRepository;
+    private final TrackRepository trackRepository;
 
-    public PlaylistService(PlaylistRepository playlistRepository, PlaylistTrackRepository playlistTrackRepository) {
+    public PlaylistService(PlaylistRepository playlistRepository,
+                           PlaylistTrackRepository playlistTrackRepository,
+                           TrackRepository trackRepository) {
         this.playlistRepository = playlistRepository;
         this.playlistTrackRepository = playlistTrackRepository;
+        this.trackRepository = trackRepository;
     }
 
     public List<Track> getTracksByPlaylist(Long playlistId) {
@@ -33,15 +37,18 @@ public class PlaylistService {
         return false;
     }
 
-    public void addTrackToPlaylist(Long playlistId, Long trackId) {
+    public boolean addTrackToPlaylist(Long playlistId, Long trackId) {
+        if (!playlistRepository.existsById(playlistId) || !trackRepository.existsById(trackId)) {
+            return false;
+        }
         PlaylistTrack pt = new PlaylistTrack();
         pt.setPlaylistId(playlistId);
         pt.setTrackId(trackId);
         playlistTrackRepository.save(pt);
+        return true;
     }
 
     public void removeTrackFromPlaylist(Long playlistId, Long trackId) {
         playlistTrackRepository.deleteByPlaylistIdAndTrackId(playlistId, trackId);
     }
-
 }
